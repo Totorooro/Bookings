@@ -1,0 +1,7 @@
+[
+    {"id":1,"email":"fedor@moloko.ru","hashed_password":"tut_budet_hashed_password_1"},
+    {"id":2,"email":"sharik@moloko.ru","hashed_password":"tut_budet_hashed_password_2"},
+    {"id":3,"email":"test@test.com","hashed_password":"$bcrypt-sha256$v=2,t=2b,r=12$Cvim55smp6srYhi6omPqN.$Bz2bKGWVeQUL.BDUbGgQm42UfTaLtam"},
+    {"id":4,"email":"user1@mail.ru","hashed_password":"$bcrypt-sha256$v=2,t=2b,r=12$uriyR6ltNBh/kd2K.JnxCu$NkkXegmBC7Q9hbthI9cr5HK80C2aS42"},
+    {"id":5,"email":"user2@mail.ru","hashed_password":"$bcrypt-sha256$v=2,t=2b,r=12$x21.o4Xbv.27/0mT6Zn.AO$xcdSRJnu0bvc8Hclveu63Yd5mL9VIZ6"}
+]

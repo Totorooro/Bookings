@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная - Отели</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .auth-buttons {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .auth-button {
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .auth-button:hover {
+            background: #0056b3;
+        }
+        .hotel-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: flex;
+        }
+        .hotel-image {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .hotel-info {
+            padding: 15px;
+            flex: 1;
+        }
+        .hotel-name {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+        }
+        .hotel-location {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .hotel-services {
+            margin-bottom: 10px;
+        }
+        .rooms-available {
+            font-weight: bold;
+            color: green;
+        }
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-input, .search-button {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .search-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .auth-section {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .user-email {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="auth-section">
+            {% if user %}
+                <span class="user-email">{{ user.email }}</span>
+                <button id="logoutButton" class="auth-button">Выйти</button>
+            {% else %}
+                <a href="/pages/login" class="auth-button">Войти</a>
+                <a href="/pages/register" class="auth-button">Зарегистрироваться</a>
+            {% endif %}
+        </div>
+        <h1>Список отелей</h1>
+
+        <form action="/pages/hotels" method="get" class="search-form">
+            <input type="date" name="date_from" class="search-input" required>
+            <input type="date" name="date_to" class="search-input" required>
+            <input type="text" name="location" class="search-input" placeholder="Локация">
+            <button type="submit" class="search-button">Найти</button>
+        </form>
+
+        <div>
+            {% for hotel in hotels %}
+            <div class="hotel-card">
+                <img src="{{ url_for('static', path='images/' + hotel.image_id|string + '.webp') }}"
+                     alt="Фото отеля" class="hotel-image">
+                <div class="hotel-info">
+                    <h2 class="hotel-name">{{ hotel.name }}</h2>
+                    <p class="hotel-location">{{ hotel.location }}</p>
+                    <p class="hotel-services">Услуги: {{ hotel.services }}</p>
+                    <p>Количество номеров: {{ hotel.rooms_quantity }}</p>
+                    {% if show_rooms_left %}
+                        <p class="rooms-available">Свободных номеров: {{ hotel.rooms_left }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <script>
+        document.getElementById('logoutButton')?.addEventListener('click', async function() {
+            try {
+                const response = await fetch('/auth/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                if (response.ok) {
+                    window.location.href = '/pages/';
+                }
+            } catch (error) {
+                console.error('Ошибка при выходе:', error);
+            }
+        });
+    </script>
+    </div>
+</body>
+</html>
